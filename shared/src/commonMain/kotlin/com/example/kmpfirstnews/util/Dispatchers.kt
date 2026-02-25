@@ -1,4 +1,4 @@
-package com.example.kmpfirstnews.until
+package com.example.kmpfirstnews.util
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

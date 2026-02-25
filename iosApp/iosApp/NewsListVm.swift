@@ -4,12 +4,14 @@ import shared
 class NewsListVm: ObservableObject {
     @Published var news: [NewsItem] = []
 
-    private lazy var vm: NewsViewModel? = {
-        let vm = NewsViewModel()
-        return vm
-    }()
+    private lazy var vm: NewsViewModel = NewsViewModel()
 
     func getNews() {
-        // Загрузка данных через общую ViewModel
+        vm.observeNews { [weak self] items in
+            DispatchQueue.main.async {
+                self?.news = items
+            }
+        }
+        vm.loadNews()
     }
 }

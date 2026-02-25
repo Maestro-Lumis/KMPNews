@@ -1,12 +1,15 @@
 package com.example.kmpfirstnews.network
 
-import com.example.kmpfirstnews.data.NewsItemsList
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 
-class NetworkClient(
-    private val networkConfiguration: NetworkConfiguration
-) {
-    fun loadData(): NewsItemsList? {
-        // TODO: реализация
-        return null
+expect fun createHttpClient(): HttpClient
+
+class NetworkClient {
+    private val httpClient: HttpClient = createHttpClient()
+
+    suspend fun loadData(path: String): String {
+        return httpClient.get(path).body()
     }
 }

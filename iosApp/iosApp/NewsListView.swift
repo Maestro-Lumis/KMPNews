@@ -1,10 +1,10 @@
 import SwiftUI
 import shared
 
-struct NewsListView: View {
+struct NewsListView: SwiftUI.View {
     @ObservedObject var model = NewsListVm()
 
-    var body: some View {
+    var body: some SwiftUI.View {
         NavigationView {
             List(Array(model.news.enumerated()), id: \.offset) { _, item in
                 NavigationLink(
@@ -15,18 +15,21 @@ struct NewsListView: View {
             }
             .navigationTitle("News")
         }
+        .onAppear {
+            model.getNews()
+        }
     }
 }
 
-struct NewsItemRow: View {
+struct NewsItemRow: SwiftUI.View {
     let item: NewsItem
 
-    var body: some View {
+    var body: some SwiftUI.View {
         VStack(alignment: .leading, spacing: 7) {
             Text(item.title)
                 .lineLimit(4)
                 .bold()
-            Text(item.description)
+            Text(item.description ?? "")
                 .lineLimit(4)
                 .font(.subheadline)
             Text(item.publishedAt ?? "")
@@ -36,15 +39,15 @@ struct NewsItemRow: View {
     }
 }
 
-struct NewsItemDetailView: View {
+struct NewsItemDetailView: SwiftUI.View {
     let item: NewsItem
 
-    var body: some View {
+    var body: some SwiftUI.View {
         VStack(alignment: .leading, spacing: 16) {
             Text(item.title)
                 .font(.title2)
                 .bold()
-            Text(item.description)
+            Text(item.description ?? "")
                 .font(.body)
             Text(item.publishedAt ?? "")
                 .font(.caption)

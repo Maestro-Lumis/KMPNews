@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -22,16 +23,29 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+            implementation("io.ktor:ktor-client-core:3.4.0")
+            implementation("io.ktor:ktor-client-logging:3.4.0")
+            implementation("io.ktor:ktor-client-content-negotiation:3.4.0")
+            implementation("io.ktor:ktor-client-serialization:3.4.0")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:3.4.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
+        }
+        androidMain.dependencies {
+            implementation("io.ktor:ktor-client-okhttp:3.4.0")
+        }
+        iosMain.dependencies {
+            implementation("io.ktor:ktor-client-darwin:3.4.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
 }
+
 
 android {
     namespace = "com.example.kmpfirstnews.shared"

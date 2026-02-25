@@ -7,16 +7,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.kmpfirstnews.data.NewsItem
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsListScreen(viewModel: NewsViewModel = NewsViewModel()) {
-
-    val news = remember { mutableStateListOf<NewsItem>() }
+    val news by viewModel.news.collectAsState()
 
     LaunchedEffect(Unit) {
-        // Здесь будет загрузка данных
+        viewModel.loadNews()
     }
 
     Scaffold(
@@ -30,14 +28,14 @@ fun NewsListScreen(viewModel: NewsViewModel = NewsViewModel()) {
                 .padding(padding)
         ) {
             items(news) { item ->
-                NewsItemRow(item = item)
+                NewsItemRow(item)
             }
         }
     }
 }
 
 @Composable
-fun NewsItemRow(item: NewsItem) {
+fun NewsItemRow(item: com.example.kmpfirstnews.data.NewsItem) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,7 +48,7 @@ fun NewsItemRow(item: NewsItem) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = item.description,
+                text = item.description ?: "",
                 style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(4.dp))
