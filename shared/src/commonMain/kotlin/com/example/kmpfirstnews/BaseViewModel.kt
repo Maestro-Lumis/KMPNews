@@ -1,16 +1,9 @@
 package com.example.kmpfirstnews
 
-import com.example.kmpfirstnews.util.uiDispatcher
-
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 
-open class BaseViewModel(dispatcher: kotlinx.coroutines.CoroutineDispatcher = uiDispatcher) {
-    private val job = SupervisorJob()
-    val scope = CoroutineScope(dispatcher + job)
-
-    fun onDestroy() {
-        scope.cancel()
-    }
+open class BaseViewModel : ViewModel() {
+    val scope: CoroutineScope = viewModelScope
 }

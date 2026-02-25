@@ -33,6 +33,10 @@ kotlin {
             implementation("io.ktor:ktor-client-serialization:3.4.0")
             implementation("io.ktor:ktor-serialization-kotlinx-json:3.4.0")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
+            implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
+            implementation("io.insert-koin:koin-core:4.1.1")
+
+
         }
         androidMain.dependencies {
             implementation("io.ktor:ktor-client-okhttp:3.4.0")

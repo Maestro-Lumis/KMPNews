@@ -20,6 +20,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions:
             [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        KoinHelper.shared.doInitKoin()
+
         notificationManager = NotificationManagerImpl(
             platformNotifier: PlatformNotifierIOS()
         )
