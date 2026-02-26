@@ -6,6 +6,7 @@ object KoinHelper {
     fun initKoin() {
         startKoin {
             modules(
+                storageModule,
                 serviceModule,
                 useCaseModule,
                 viewModelModule

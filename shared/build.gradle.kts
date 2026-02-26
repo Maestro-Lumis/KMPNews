@@ -35,7 +35,7 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
             implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
             implementation("io.insert-koin:koin-core:4.1.1")
-
+            implementation("androidx.datastore:datastore-preferences-core:1.2.0")
 
         }
         androidMain.dependencies {

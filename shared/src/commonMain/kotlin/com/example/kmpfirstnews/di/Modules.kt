@@ -4,7 +4,9 @@ import com.example.kmpfirstnews.NewsUseCase
 import com.example.kmpfirstnews.NewsViewModel
 import com.example.kmpfirstnews.network.NetworkClient
 import com.example.kmpfirstnews.service.NewsService
+import com.example.kmpfirstnews.storage.NewsDataStore
 import com.example.kmpfirstnews.storage.Storage
+import com.example.kmpfirstnews.storage.createDataStore
 import org.koin.dsl.module
 
 val serviceModule = module {
@@ -19,4 +21,8 @@ val useCaseModule = module {
 
 val viewModelModule = module {
     factory { NewsViewModel() }
+}
+
+val storageModule = module {
+    single { NewsDataStore(createDataStore()) }
 }
