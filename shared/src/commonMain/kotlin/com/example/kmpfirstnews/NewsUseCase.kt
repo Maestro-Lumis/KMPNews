@@ -1,14 +1,16 @@
 package com.example.kmpfirstnews
 
 import com.example.kmpfirstnews.data.NewsItemsList
-import com.example.kmpfirstnews.network.NetworkClient
 import com.example.kmpfirstnews.service.NewsService
-import com.example.kmpfirstnews.storage.Storage
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class NewsUseCase : BaseUseCase<Unit, NewsItemsList?>() {
-    private val newsService = NewsService(NetworkClient(), Storage())
+class NewsUseCase : BaseUseCase<Unit, NewsItemsList?>(), KoinComponent {
+    private val newsService: NewsService by inject()
 
     override suspend fun execute(param: Unit): NewsItemsList? {
-        return newsService.loadNews().getOrNull()
+        val result = newsService.loadNews()
+        result.onFailure { println("NewsUseCase: error = ${it.message}") }
+        return result.getOrNull()
     }
 }

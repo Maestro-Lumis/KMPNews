@@ -67,5 +67,6 @@ android {
 dependencies {
     debugImplementation(libs.compose.uiTooling)
     implementation(projects.shared)
+    implementation("io.insert-koin:koin-android:4.1.1")
 }
 

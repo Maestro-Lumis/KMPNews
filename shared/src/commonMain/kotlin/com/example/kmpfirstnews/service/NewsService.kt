@@ -23,4 +23,5 @@ class NewsService(
             Result.failure(e)
         }
     }
+
 }

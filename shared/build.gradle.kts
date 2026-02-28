@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
@@ -36,6 +38,13 @@ kotlin {
             implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
             implementation("io.insert-koin:koin-core:4.1.1")
             implementation("androidx.datastore:datastore-preferences-core:1.2.0")
+            implementation("org.jetbrains.compose.ui:ui:1.10.0")
+            implementation("org.jetbrains.compose.runtime:runtime:1.10.0")
+            implementation("org.jetbrains.compose.foundation:foundation:1.10.0")
+            implementation("org.jetbrains.compose.material3:material3:1.9.0")
+            implementation("org.jetbrains.compose.components:components-resources:1.10.0")
+            api("moe.tlaster:precompose:1.6.1")
+            api("io.github.qdsfdhvh:image-loader:1.7.1")
 
         }
         androidMain.dependencies {

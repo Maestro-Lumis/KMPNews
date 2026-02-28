@@ -3,17 +3,16 @@ package com.example.kmpfirstnews
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import com.example.kmpfirstnews.ui.App
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
+    private val viewModel: NewsViewModel by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                NewsListScreen()
-            }
+            App(viewModel)
         }
     }
 }
