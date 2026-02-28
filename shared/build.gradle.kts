@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
 }
 
 kotlin {
@@ -44,8 +45,9 @@ kotlin {
             implementation("org.jetbrains.compose.material3:material3:1.9.0")
             implementation("org.jetbrains.compose.components:components-resources:1.10.0")
             api("moe.tlaster:precompose:1.6.1")
-            api("io.github.qdsfdhvh:image-loader:1.7.1")
-
+            api("io.coil-kt.coil3:coil-compose:3.1.0")
+            api("io.coil-kt.coil3:coil-network-ktor3:3.1.0")
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
         }
         androidMain.dependencies {
             implementation("io.ktor:ktor-client-okhttp:3.4.0")

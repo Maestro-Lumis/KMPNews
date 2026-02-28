@@ -21,13 +21,18 @@ fun App(viewModel: NewsViewModel) {
         ) {
             scene(route = NewsScreen.NewsList.name) {
                 NewsListScreen(viewModel) { item ->
+                    viewModel.selectNews(item)
                     navigator.navigate(NewsScreen.NewsItem.name)
                 }
             }
             scene(route = NewsScreen.NewsItem.name) {
-                NewsItemScreen(
-                    item = viewModel.news.value.firstOrNull() ?: return@scene
-                )
+                val item by viewModel.selectedNews.collectAsState()
+                item?.let {
+                    NewsItemScreen(
+                        item = it,
+                        onBack = { navigator.goBack() }
+                    )
+                }
             }
         }
     }
