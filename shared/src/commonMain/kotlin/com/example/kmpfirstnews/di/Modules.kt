@@ -20,7 +20,7 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
-    factory { NewsViewModel() }
+    factory { NewsViewModel(get()) }
 }
 
 val storageModule = module {

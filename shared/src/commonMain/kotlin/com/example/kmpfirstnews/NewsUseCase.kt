@@ -9,8 +9,6 @@ class NewsUseCase : BaseUseCase<Unit, NewsItemsList?>(), KoinComponent {
     private val newsService: NewsService by inject()
 
     override suspend fun execute(param: Unit): NewsItemsList? {
-        val result = newsService.loadNews()
-        result.onFailure { println("NewsUseCase: error = ${it.message}") }
-        return result.getOrNull()
+        return newsService.loadNews().getOrNull()
     }
 }

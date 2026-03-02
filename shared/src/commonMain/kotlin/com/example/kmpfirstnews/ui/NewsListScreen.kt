@@ -9,6 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +20,9 @@ import coil3.compose.AsyncImage
 import com.example.kmpfirstnews.NewsState
 import com.example.kmpfirstnews.NewsViewModel
 import com.example.kmpfirstnews.data.NewsItem
+import com.example.kmpfirstnews.formatNewsDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsListScreen(
     viewModel: NewsViewModel,
@@ -26,16 +30,18 @@ fun NewsListScreen(
 ) {
     val news by viewModel.news.collectAsState()
     val state by viewModel.state.collectAsState()
-    val favorites by viewModel.favorites.collectAsState()
+    val isRefreshing = state is NewsState.Loading
+
+    val pullRefreshState = rememberPullToRefreshState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        when (state) {
-            is NewsState.Loading -> {
+        when {
+            state is NewsState.Loading && news.isEmpty() -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-            is NewsState.Error -> {
+            state is NewsState.Error && news.isEmpty() -> {
                 Column(
                     modifier = Modifier.align(Alignment.Center),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -52,16 +58,23 @@ fun NewsListScreen(
                 }
             }
             else -> {
-                LazyColumn(
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                PullToRefreshBox(
+                    isRefreshing = isRefreshing,
+                    onRefresh = { viewModel.loadNews() },
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    items(news) { item ->
-                        NewsListItemView(
-                            item = item,
-                            isFavorite = favorites.contains(item.url),
-                            onFavoriteClick = { viewModel.toggleFavorite(item) },
-                            modifier = Modifier.clickable { onClick(item) }
-                        )
+                    val favorites by viewModel.favorites.collectAsState()
+                    LazyColumn(
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        items(news) { item ->
+                            NewsListItemView(
+                                item = item,
+                                isFavorite = favorites.contains(item.url),
+                                onFavoriteClick = { viewModel.toggleFavorite(item) },
+                                modifier = Modifier.clickable { onClick(item) }
+                            )
+                        }
                     }
                 }
             }
@@ -120,7 +133,7 @@ fun NewsListItemView(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = item.publishedAt ?: "",
+                    text = item.publishedAt?.let { formatNewsDate(it) } ?: "",
                     style = MaterialTheme.typography.labelSmall
                 )
             }

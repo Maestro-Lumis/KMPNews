@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.example.kmpfirstnews.data.NewsItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import com.example.kmpfirstnews.formatNewsDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +48,7 @@ fun NewsItemScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = item.publishedAt ?: "",
+                text = item.publishedAt?.let { formatNewsDate(it) } ?: "",
                 style = MaterialTheme.typography.labelSmall
             )
             Spacer(modifier = Modifier.height(16.dp))

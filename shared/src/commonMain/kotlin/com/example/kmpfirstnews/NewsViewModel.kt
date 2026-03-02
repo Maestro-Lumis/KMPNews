@@ -6,12 +6,11 @@ import com.example.kmpfirstnews.storage.NewsDataStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class NewsViewModel : BaseViewModel(), KoinComponent {
+class NewsViewModel(
+    private val dataStore: NewsDataStore
+) : BaseViewModel() {
     private val useCase = NewsUseCase()
-    private val dataStore: NewsDataStore by inject()
 
     private val _news = MutableStateFlow<List<NewsItem>>(emptyList())
     val news: StateFlow<List<NewsItem>> = _news
@@ -35,6 +34,18 @@ class NewsViewModel : BaseViewModel(), KoinComponent {
 
     fun selectNews(item: NewsItem) {
         _selectedNews.value = item
+    }
+
+    fun selectNewsByUrl(url: String) {
+        scope.launch {
+            news.collect { items ->
+                val found = items.firstOrNull { it.url == url }
+                if (found != null) {
+                    _selectedNews.value = found
+                    return@collect
+                }
+            }
+        }
     }
 
     fun toggleFavorite(item: NewsItem) {
